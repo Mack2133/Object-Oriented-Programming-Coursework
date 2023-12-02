@@ -1,11 +1,14 @@
 public abstract class Product {
-    private String product_id;
-    private String product_name;
-    private int number_of_available_items;
-    private double price;
+    private String productID;
+    private String productName;
+    private int availableItemsCount;
+    private double productPrice;
 
-    Product(){
-
+    public Product(String productID, String productName, int availableItemsCount, double productPrice) {
+        this.productID = productID;
+        this.productName = productName;
+        this.availableItemsCount = availableItemsCount;
+        this.productPrice = productPrice;
     }
 
 }
