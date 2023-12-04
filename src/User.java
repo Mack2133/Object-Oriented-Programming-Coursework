@@ -11,6 +11,8 @@ public class User {
 
         System.out.print("Enter password: ");
         password = scanner.nextLine();
+
+        System.out.println("Username and password set up");
     }
 
     void userLogin(String userName, String password){
@@ -34,6 +36,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }

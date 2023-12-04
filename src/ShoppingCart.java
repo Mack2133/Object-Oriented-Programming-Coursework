@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -10,6 +9,7 @@ public class ShoppingCart {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter the product name: ");
+
         if(Objects.equals(item.getProductName().toLowerCase(), scanner.nextLine().toLowerCase())){ //checking if the product is available in the system
             if(item.getAvailableItemsCount() > 0){ // checking if the product is in stock
                 productListOfCart.add(item);
@@ -18,27 +18,41 @@ public class ShoppingCart {
     }
 
     public void removeProduct(Product item){
+        boolean productFound = false;
         for (int i = 0; i < productListOfCart.size(); i++) {
-            if(Objects.equals(productListOfCart.get(i).getProductID(), item.getProductID())) { // checking if the product is in the cart
+            if(Objects.equals(productListOfCart.get(i).getProductID(), item.getProductID())){
                 productListOfCart.remove(item);
+                productFound = true;
                 break;
-            } else {
-                System.out.println("The item you entered is not in the shopping cart");
             }
+        }
+        if(!productFound){
+            System.out.println("The item you entered is not in the shopping cart");
         }
     }
 
     public void calculateTotal(){
         double total = 0;
-        for (int i = 0; i < productListOfCart.size(); i++) {
-            total =+ productListOfCart.get(i).getProductPrice();
+        for (Product product : productListOfCart) {
+            total += product.getProductPrice();
         }
         System.out.println("Total price: " + total);
     }
+
+    public void displayProductList(){
+        for (Product product : productListOfCart) {
+            System.out.println(product);
+        }
+    }
+
 
     @Override
     public String toString() {
         return "ShoppingCart: \n" +
                 "productsList=" + productListOfCart;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

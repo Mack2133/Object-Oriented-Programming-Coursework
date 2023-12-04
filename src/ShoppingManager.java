@@ -1,7 +1,7 @@
 public interface ShoppingManager {
-    public Product addProduct();
-    public Product removeProduct();
-    public Product displayProducts();
-    public Product saveFile();
+    public void addProduct();
+    public void deleteProduct();
+    public void displayProducts();
+    public void saveFile();
 
 }
