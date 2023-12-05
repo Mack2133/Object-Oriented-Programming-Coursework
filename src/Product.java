@@ -1,24 +1,14 @@
 public abstract class Product {
     private String productID;
     private String productName;
-    private int availableItemsCount;
+    private int numberOfAvailableItems;
     private double productPrice;
-
-    public Product(){
-
-    }
 
     public Product(String productID, String productName, double productPrice){
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
-    }
-
-    public Product(String productID, String productName, int availableItemsCount, double productPrice) {
-        this.productID = productID;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.availableItemsCount = availableItemsCount;
+        numberOfAvailableItems++;
     }
 
     public String getProductID() {
@@ -29,8 +19,8 @@ public abstract class Product {
         return productName;
     }
 
-    public int getAvailableItemsCount() {
-        return availableItemsCount;
+    public int getNumberOfAvailableItems() {
+        return numberOfAvailableItems;
     }
 
     public double getProductPrice() {
@@ -49,15 +39,11 @@ public abstract class Product {
         this.productPrice = productPrice;
     }
 
-    public void setAvailableItemsCount(int availableItemsCount) {
-        this.availableItemsCount = availableItemsCount;
-    }
-
     @Override
     public String toString() {
-        return "productID='" + productID + '\'' +
-                ", productName='" + productName + '\'' +
-                ", availableItemsCount=" + availableItemsCount +
-                ", productPrice=" + productPrice;
+        return "ProductID: " + productID +
+                ", Product Name: " + productName +
+                ", Price: " + productPrice +
+                ", Number of Available Items: " + numberOfAvailableItems;
     }
 }
