@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Test extends Product{
     public Test(String productID, String productName, double productPrice) {
@@ -17,16 +18,7 @@ public class Test extends Product{
 
         System.out.println (band);
 
-        band.remove (band.contains("id1"));
 
-//
-//        System.out.println (band);
-//        System.out.println ("At index 1: " + band.get(1));
-//
-//        band.add (2, "Ringo");
-//
-//        System.out.println (band);
-//        System.out.println ("Size : " + band.size());
 
 
     }

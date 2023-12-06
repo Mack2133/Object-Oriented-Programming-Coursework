@@ -1,7 +1,7 @@
 public abstract class Product {
     private String productID;
     private String productName;
-    private int numberOfAvailableItems;
+    private static int numberOfAvailableItems;
     private double productPrice;
 
     public Product(String productID, String productName, double productPrice){
@@ -19,7 +19,7 @@ public abstract class Product {
         return productName;
     }
 
-    public int getNumberOfAvailableItems() {
+    public static int getNumberOfAvailableItems() {
         return numberOfAvailableItems;
     }
 
@@ -39,11 +39,14 @@ public abstract class Product {
         this.productPrice = productPrice;
     }
 
+    public static void setNumberOfAvailableItems(int numberOfAvailableItems) {
+        Product.numberOfAvailableItems = numberOfAvailableItems;
+    }
+
     @Override
     public String toString() {
         return "ProductID: " + productID +
                 ", Product Name: " + productName +
-                ", Price: " + productPrice +
-                ", Number of Available Items: " + numberOfAvailableItems;
+                ", Price: " + productPrice;
     }
 }
