@@ -3,5 +3,6 @@ public interface ShoppingManager {
     public void deleteProduct();
     public void displayProducts();
     public void saveFile();
+    public void loadFile();
 
 }

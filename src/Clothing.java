@@ -1,4 +1,6 @@
-public class Clothing extends Product{
+import java.io.Serializable;
+
+public class Clothing extends Product implements Serializable {
     private String size;
     private String color;
 

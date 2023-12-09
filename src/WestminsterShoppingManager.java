@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,19 +18,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    manger.addProduct();
-                }
-                case "2" -> {
-                    manger.deleteProduct();
-                }
-                case "3" -> {
-                    manger.displayProducts();
-                }
-                case "4" -> {
-                    manger.saveFile();
-                }
-                case "5"-> {
+                case "1" -> manger.addProduct();
+                case "2" -> manger.deleteProduct();
+                case "3" -> manger.displayProducts();
+                case "4" -> manger.saveFile();
+                case "5" -> manger.loadFile();
+                case "6"-> {
                     System.out.println("System Exited");
                     System.exit(0);
                 }
@@ -40,11 +34,14 @@ public class WestminsterShoppingManager implements ShoppingManager {
     }
 
     private WestminsterShoppingManager(){
-        productsList.add(new Electronics("ID05", "Smart TV", 599.99,"LG","03-Years"));
-        productsList.add(new Electronics("ID03", "Laptop", 899.99,"apple","01-Year"));
-        productsList.add(new Clothing("ID02", "T-Shirt", 19.99,"Large","Black"));
-        productsList.add(new Electronics("ID01", "Headphones", 129.99,"samsung","01-Year"));
-        productsList.add(new Clothing("ID04", "Jeans", 49.99,"Medium","Sky-Blue"));
+        if(!productsList.isEmpty()){
+            for (Product product : productsList) {
+                if (product instanceof Electronics)
+                    new Electronics(product.getProductID(), product.getProductName(), product.getProductPrice(), ((Electronics) product).getBrand(), ((Electronics) product).getWarranty());
+                if (product instanceof Clothing)
+                    new Clothing(product.getProductID(), product.getProductName(), product.getProductPrice(), ((Clothing) product).getSize(), ((Clothing) product).getColor());
+            }
+        }
     }
 
     Scanner scanner = new Scanner(System.in);
@@ -52,89 +49,74 @@ public class WestminsterShoppingManager implements ShoppingManager {
     @Override
     public void addProduct() {
         String choice;
-        boolean added = false;
-        String productID = null;
-        String productName = null;
-        double productPrice = 0;
-        String brand = null;
-        String warranty = null;
-        String size = null;
-        String color = null;
+        boolean isIDFound;
+        String productID;
+        String productName;
+        double productPrice;
+        String brand;
+        String warranty;
+        String size;
+        String color;
 
         do {
             System.out.println(
                     """
-                            01. Electronic
-                            02. Clothing
+                        01. Electronic
+                        02. Clothing
                     """
             );
+
             System.out.print("Select the type: ");
             choice = scanner.nextLine();
 
-            if (choice.equalsIgnoreCase("1")){
+        } while (!choice.equalsIgnoreCase("1") && (!choice.equalsIgnoreCase("2")));
 
-                for (Product product : productsList) {
-                    System.out.print("Enter productID: ");
-                    productID = scanner.nextLine().toUpperCase();
-                    if (productID.equalsIgnoreCase(product.getProductID())) {
-                        System.out.println("The productID must be unique and the product id you have entered is already existing. please try another ID");
-                    }
-                    else break;
+        do {
+            System.out.print("Enter productID: ");
+            productID = scanner.nextLine();
+
+            isIDFound = false;
+
+            for (Product product : productsList) {
+                if (productID.equalsIgnoreCase(product.getProductID())) {
+                    System.out.println("The productID you entered already exists. Please try another ID");
+                    isIDFound = true;
+                    break;
                 }
+            }
+        } while (isIDFound);
 
-                System.out.print("Enter product Name: ");
-                productName = scanner.nextLine();
+        System.out.print("Enter product Name: ");
+        productName = scanner.nextLine();
 
-                System.out.print("Enter the price");
-                productPrice = scanner.nextDouble();
-                scanner.nextLine(); // Consuming the newline character in the buffer
+        System.out.print("Enter the price: ");
+        productPrice = scanner.nextDouble();
+        scanner.nextLine(); // Consuming the newline character in the buffer
+
+        if (productsList.size() < 50) {
+            if (choice.equalsIgnoreCase("1")) {
 
                 System.out.print("Enter the brand: ");
                 brand = scanner.nextLine();
 
                 System.out.print("Enter the warranty period: ");
                 warranty = scanner.nextLine();
-                added = true;
+
+                Product newElectronicProduct = new Electronics(productID, productName, productPrice, brand, warranty);
+                productsList.add(newElectronicProduct);
+                System.out.println(newElectronicProduct + " Product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
             }
-            else if (choice.equalsIgnoreCase("2")){
-
-                for (Product product : productsList) {
-                    System.out.print("Enter productID: ");
-                    productID = scanner.nextLine().toUpperCase();
-                    if (productID.equalsIgnoreCase(product.getProductID())) {
-                        System.out.println("The productID must be unique and the product id you have entered is already existing. please try another ID");
-                    }
-                    else break;
-                }
-
-                System.out.print("Enter product Name: ");
-                productName = scanner.nextLine();
-
-                System.out.print("Enter the price");
-                productPrice = scanner.nextDouble();
-                scanner.nextLine(); // Consuming the newline character in the buffer
+            if (choice.equalsIgnoreCase("2")) {
 
                 System.out.print("Enter the size: ");
                 size = scanner.nextLine();
 
                 System.out.print("Enter the color: ");
                 color = scanner.nextLine();
-                added = true;
-            } else System.out.println("Enter a valid type");
-        } while (!added);
 
-        if (productsList.size() < 50) {
-
-            Product newElectronicProduct = new Electronics(productID, productName, productPrice,brand,warranty);
-            Product newClothingProduct = new Clothing(productID, productName, productPrice, size, color);
-
-            if(choice.equalsIgnoreCase("1")) {
-                productsList.add(newElectronicProduct);
-                System.out.println(newElectronicProduct + ", Product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
-            }
-            if(choice.equalsIgnoreCase("2")) {
+                Product newClothingProduct = new Clothing(productID, productName, productPrice, size, color);
                 productsList.add(newClothingProduct);
-                System.out.println(newClothingProduct + ", product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
+                System.out.println(newClothingProduct + " product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
             }
         } else {
             System.out.println("Cannot add more products. Product limit reached.");
@@ -172,6 +154,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public void displayProducts() {
+
         productsList.sort(new ProductIDComparator());
         for (Product product:productsList) {
             String Products = product.toString();
@@ -181,7 +164,31 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public void saveFile() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("Data.ser");
+            ObjectOutputStream saveFile = new ObjectOutputStream(fileOut);
+            saveFile.writeObject(productsList);
+            fileOut.close();
+            saveFile.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("File successfully saved");
+    }
 
+    @Override
+    public void loadFile() {
+        try (FileInputStream fileIn = new FileInputStream("Data.ser");
+             ObjectInputStream readFromFile = new ObjectInputStream(fileIn)) {
+            ArrayList<Product> loadedProducts = (ArrayList<Product>) readFromFile.readObject();
+
+            productsList.clear();
+            productsList.addAll(loadedProducts);
+            System.out.println("File loaded successfully");
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void displayMenuOptions() {
@@ -194,7 +201,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         02. Delete a product
                         03. Print the list of products
                         04. Save File
-                        05. Exit
+                        05. Load File
+                        06. Exit
                 """
         );
     }
