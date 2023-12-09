@@ -7,6 +7,10 @@ public class User implements Serializable {
     Scanner scanner = new Scanner(System.in);
 
     public User() {
+
+    }
+
+    public void newUserLogin(){
         System.out.print("Enter user name: ");
         userName = scanner.nextLine();
 
@@ -16,7 +20,7 @@ public class User implements Serializable {
         System.out.println("Username and password set up");
     }
 
-    void userLogin(){
+    public void userLogin(){
 
         while (true){
             System.out.print("Enter user name: ");

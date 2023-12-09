@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class Application {
     public static void main(String[] args) {
         WestminsterShoppingManager manager = new WestminsterShoppingManager();
         Scanner scanner1 = new Scanner(System.in);
@@ -12,6 +12,7 @@ public class Main {
             String userType = scanner1.nextLine();
 
             if(userType.equalsIgnoreCase("1")){
+                new GUI();
                 break;
             }
             else if(userType.equalsIgnoreCase("2")){
