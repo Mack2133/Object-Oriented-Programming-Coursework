@@ -2,39 +2,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.*;
 
 public class WestminsterShoppingManager implements ShoppingManager {
 
     private final ArrayList<Product> productsList = new ArrayList<>();
 
-    public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
 
-        WestminsterShoppingManager manger = new WestminsterShoppingManager();
-
-        do {
-            WestminsterShoppingManager.displayMenuOptions(); // printing the options
-
-            System.out.print("Enter a option: ");
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1" -> manger.addProduct();
-                case "2" -> manger.deleteProduct();
-                case "3" -> manger.displayProducts();
-                case "4" -> manger.saveFile();
-                case "5" -> manger.loadFile();
-                case "6"-> {
-                    System.out.println("System Exited");
-                    System.exit(0);
-                }
-                default ->
-                    System.out.println("Enter a valid option");
-            }
-        } while (true);
-    }
-
-    private WestminsterShoppingManager(){
+    public WestminsterShoppingManager(){
         if(!productsList.isEmpty()){
             for (Product product : productsList) {
                 if (product instanceof Electronics)
@@ -44,8 +20,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
             }
         }
     }
-
-    Scanner scanner = new Scanner(System.in);
 
     @Override
     public void addProduct() {
@@ -73,8 +47,15 @@ public class WestminsterShoppingManager implements ShoppingManager {
         } while (!choice.equalsIgnoreCase("1") && (!choice.equalsIgnoreCase("2")));
 
         do {
-            System.out.print("Enter productID: ");
-            productID = scanner.nextLine();
+            while (true){
+                System.out.print("Enter productID: ");
+                productID = scanner.nextLine();
+                String regex = "^id.*";
+
+                if (!Pattern.matches(regex, productID)) {
+                    System.out.println("Invalid ID format.Product ID should contain \"id\" in the start");
+                }else break;
+            }
 
             isIDFound = false;
 
@@ -94,9 +75,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
             try {
                 System.out.print("Enter the price: ");
                 productPrice = scanner.nextDouble();
+                scanner.nextLine();
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid double value.");
+                System.out.println("Invalid input. Please enter a valid value.");
                 scanner.nextLine();
             }
         }
@@ -213,5 +195,15 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         06. Exit
                 """
         );
+    }
+
+    public static void displayUserType() {
+        System.out.print
+                ("""
+                    
+                    01. User
+                    02. Manager
+                    
+                """);
     }
 }
