@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class WestminsterShoppingManager implements ShoppingManager {
@@ -89,9 +90,16 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.print("Enter product Name: ");
         productName = scanner.nextLine();
 
-        System.out.print("Enter the price: ");
-        productPrice = scanner.nextDouble();
-        scanner.nextLine(); // Consuming the newline character in the buffer
+        while (true){
+            try {
+                System.out.print("Enter the price: ");
+                productPrice = scanner.nextDouble();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid double value.");
+                scanner.nextLine();
+            }
+        }
 
         if (productsList.size() < 50) {
             if (choice.equalsIgnoreCase("1")) {
