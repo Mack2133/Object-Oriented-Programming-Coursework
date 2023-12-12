@@ -6,7 +6,6 @@ public class App {
         Scanner scanner1 = new Scanner(System.in);
 
         while(true){
-
             WestminsterShoppingManager.displayUserType();
             System.out.print("Enter a option: ");
             String userType = scanner1.nextLine();

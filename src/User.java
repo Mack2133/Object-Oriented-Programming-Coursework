@@ -10,6 +10,7 @@ public class User implements Serializable {
         while (true){
             System.out.print
                     ("""
+                    
                     01. login as user
                     02. register as  a user
                     
@@ -103,7 +104,4 @@ public class User implements Serializable {
         }
     }
 
-    public static void main(String[] args) {
-        new User();
-    }
 }

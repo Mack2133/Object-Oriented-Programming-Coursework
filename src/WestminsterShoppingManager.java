@@ -11,6 +11,55 @@ public class WestminsterShoppingManager implements ShoppingManager {
     Scanner scanner = new Scanner(System.in);
 
     public WestminsterShoppingManager(){
+
+        //sample Data
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
+        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
+        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
+        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
+        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
+        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
+        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
+        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
+        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
+        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
+        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
+        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
+        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
+        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
+        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
+        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
+        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
+        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
+
+
         if(!productsList.isEmpty()){
             for (Product product : productsList) {
                 if (product instanceof Electronics)
@@ -111,6 +160,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
         } else {
             System.out.println("Cannot add more products. Product limit reached.");
         }
+    }
+
+    public ArrayList<Product> getProductsList() {
+        return productsList;
     }
 
     @Override
