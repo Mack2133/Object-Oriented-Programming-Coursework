@@ -168,8 +168,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public void loadFile() {
-        try (FileInputStream fileIn = new FileInputStream("Data.ser");
-             ObjectInputStream readFromFile = new ObjectInputStream(fileIn)) {
+        try{
+            FileInputStream fileIn = new FileInputStream("Data.ser");
+            ObjectInputStream readFromFile = new ObjectInputStream(fileIn);
             ArrayList<Product> loadedProducts = (ArrayList<Product>) readFromFile.readObject();
 
             productsList.clear();
