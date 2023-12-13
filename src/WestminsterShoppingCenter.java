@@ -17,7 +17,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
         JPanel panel2 = new JPanel();
         panel2.setBounds(0,100,1200,357); // second partition
         JPanel panel3 = new JPanel();
-        panel3.setBounds(0,593,1200,400); // third partition
+        panel3.setBounds(0,450,1200,543); // third partition
 
         JPanel panel1_1 = new JPanel(); // for the left part which the combobox and label are there.
         JPanel panel1_2 = new JPanel(); // for the shopping cart panel button
@@ -61,11 +61,16 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
         // creating a table and passing the custom table model to it.
         JTable table = new JTable(tableModel);
         table.setGridColor(Color.BLACK);
+        table.setAutoCreateRowSorter(true); // sort the table by clicking the column name
+        table.setRowHeight(40);
         table.getTableHeader().setFont(new Font("Product Sans",Font.BOLD,18));
+
+        // adding table scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1100,400));
 
         JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setPreferredSize(new Dimension(0,40));
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) tableHeader.getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -88,6 +93,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
         this.setLayout(null);
         this.setVisible(true);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
 
     @Override
