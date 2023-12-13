@@ -27,7 +27,10 @@ public class App {
                         case "2" -> manager.deleteProduct();
                         case "3" -> manager.displayProducts();
                         case "4" -> manager.saveFile();
-                        case "5" -> manager.loadFile();
+                        case "5" -> {
+                            manager.loadFile();
+                            System.out.println("File Loaded Successfully");
+                        }
                         case "6"-> {
                             System.out.println("System Exited");
                             System.exit(0);

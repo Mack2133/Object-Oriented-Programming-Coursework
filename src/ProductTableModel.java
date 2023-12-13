@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class ProductTableModel extends AbstractTableModel {
     private final String[] columnNames = {"Product ID","Name","Category","Price","info"};
     private ArrayList<Product> productList;
+
     ProductTableModel(ArrayList<Product> productList){
         this.productList = productList;
     }
@@ -58,7 +59,6 @@ public class ProductTableModel extends AbstractTableModel {
                 value = size + ", " + color;
             }
         }
-
         return value;
     }
 
@@ -66,11 +66,15 @@ public class ProductTableModel extends AbstractTableModel {
         return columnNames[col];
     }
 
-    public Class getColumnClass(int col){
+    public Class<?> getColumnClass(int col){
         if(col == 3){
             return Double.class;
         } else
             return String.class;
     }
 
+    public void updateData(ArrayList<Product> newProductList) {
+        this.productList = newProductList;
+        fireTableDataChanged();
+    }
 }

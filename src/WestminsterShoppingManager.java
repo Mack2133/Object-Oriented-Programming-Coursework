@@ -5,61 +5,11 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 public class WestminsterShoppingManager implements ShoppingManager {
-
     private final ArrayList<Product> productsList = new ArrayList<>();
-
     Scanner scanner = new Scanner(System.in);
 
     public WestminsterShoppingManager(){
-
-        //sample Data
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
-        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
-        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
-        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
-        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
-        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
-        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
-        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
-        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-        productsList.add(new Clothing("id106", "T-Shirt", 20, "Large", "White"));
-        productsList.add(new Clothing("id107", "Jeans", 50, "32x34", "Blue"));
-        productsList.add(new Clothing("id108", "Dress Shirt", 30, "Medium", "Light Blue"));
-        productsList.add(new Clothing("id109", "Sweater", 40, "Large", "Gray"));
-        productsList.add(new Clothing("id110", "Shorts", 25, "Medium", "Black"));
-        productsList.add(new Electronics("id101", "Laptop", 2000, "Apple", "Years"));
-        productsList.add(new Electronics("id102", "Smartphone", 1000, "Samsung", "Months"));
-        productsList.add(new Electronics("id103", "Tablet", 800, "Microsoft", "Years"));
-        productsList.add(new Electronics("id104", "Desktop", 2500, "HP", "Years"));
-        productsList.add(new Electronics("id105", "Smartwatch", 300, "Fitbit", "Months"));
-
-
+        loadFile();
         if(!productsList.isEmpty()){
             for (Product product : productsList) {
                 if (product instanceof Electronics)
@@ -228,13 +178,45 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
             productsList.clear();
             productsList.addAll(loadedProducts);
-            System.out.println("File loaded successfully");
 
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public void updateProductList(String category){
+        ArrayList<Electronics> tempElectronics = new ArrayList<>();
+        ArrayList<Clothing> tempClothing = new ArrayList<>();
+
+        if(!(category==null)){
+
+            if(category.equalsIgnoreCase("Electronics")){
+                loadFile();
+                for (Product product:productsList) {
+                    if (product instanceof Electronics){
+                        tempElectronics.add((Electronics) product);
+                    }
+                }
+                productsList.clear();
+                productsList.addAll(tempElectronics);
+            }
+
+            if(category.equalsIgnoreCase("Clothing")){
+                loadFile();
+                for (Product product:productsList) {
+                    if (product instanceof Clothing){
+                        tempClothing.add((Clothing) product);
+                    }
+                }
+                productsList.clear();
+                productsList.addAll(tempClothing);
+            }
+
+            if(category.equalsIgnoreCase("All")){
+                loadFile();
+            }
+        }
+    }
     public static void displayMenuOptions() {
 
         System.out.println("\n*************** Welcome To Westminster Shopping Manager ***************\n");

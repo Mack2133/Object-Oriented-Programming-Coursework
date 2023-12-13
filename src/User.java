@@ -28,7 +28,7 @@ public class User implements Serializable {
                     userLogin();
                     return; // break the while loop using return
                 }
-                default -> System.out.println("Invalid input. Please enter \"yes\" or \"no\".");
+                default -> System.out.println("Invalid input. Please enter \"1\" or \"2\".");
             }
         }
     }
