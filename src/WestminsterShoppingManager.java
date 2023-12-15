@@ -24,6 +24,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
     public void addProduct() {
         String choice;
         boolean isIDFound;
+        boolean productExists;
         String productID;
         String productName;
         double productPrice;
@@ -91,9 +92,24 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 System.out.print("Enter the warranty period: ");
                 warranty = scanner.nextLine();
 
-                Product newElectronicProduct = new Electronics(productID, productName, productPrice, brand, warranty);
-                productsList.add(newElectronicProduct);
-                System.out.println(newElectronicProduct + " Product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
+                productExists = false;
+
+                for (Product product:productsList) {
+                    if (productName.equalsIgnoreCase(product.getProductName())){
+                        Electronics item = (Electronics)product;
+                        if (brand.equalsIgnoreCase(item.getBrand())){
+                            productExists = true;
+                        }
+                        product.setItemQuantity();
+                        break;
+                    }
+                }
+
+                if (!productExists){
+                    Product newElectronicProduct = new Electronics(productID, productName, productPrice, brand, warranty);
+                    productsList.add(newElectronicProduct);
+                    System.out.println(newElectronicProduct + " Product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
+                }
             }
             if (choice.equalsIgnoreCase("2")) {
 
@@ -179,8 +195,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
             productsList.clear();
             productsList.addAll(loadedProducts);
 
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException ignored) {
         }
     }
 

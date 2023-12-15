@@ -4,20 +4,29 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class WestminsterShoppingCenter extends JFrame implements ActionListener {
+public class WestminsterShoppingCenter extends JFrame implements ActionListener, MouseListener {
     JComboBox<String> comboBox;
     JButton shoppingCartBtn;
     ProductTableModel tableModel;
+    String selectedID;
+    JTable table;
     WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
+    SelectedProductDetails selectedProductDetails;
 
-    WestminsterShoppingCenter(){
+    public WestminsterShoppingCenter(){
+
+        selectedProductDetails = new SelectedProductDetails();
+
         JPanel panel1 = new JPanel();
         panel1.setBounds(0,0,1200,100); // first partition
         JPanel panel2 = new JPanel();
         panel2.setBounds(0,100,1200,357); // second partition
         JPanel panel3 = new JPanel();
         panel3.setBounds(0,450,1200,543); // third partition
+        panel3.setLayout(new FlowLayout(FlowLayout.CENTER,80,60));
 
         JPanel panel1_1 = new JPanel(); // for the left part which the combobox and label are there.
         JPanel panel1_2 = new JPanel(); // for the shopping cart panel button
@@ -54,12 +63,12 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
         panel1.add(panel1_2);
         panel1.setLayout(new GridLayout(1,2));
 
-        WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
-        tableModel = new ProductTableModel(shoppingManager.getProductsList()); // custom table model
+        tableModel = new ProductTableModel(westminsterShoppingManager.getProductsList()); // custom table model
         // and passing the array
 
         // creating a table and passing the custom table model to it.
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
+        table.addMouseListener(this);
         table.setGridColor(Color.BLACK);
         table.setAutoCreateRowSorter(true); // sort the table by clicking the column name
         table.setRowHeight(40);
@@ -81,6 +90,9 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
 
         // adding the table to panel2
         panel2.add(scrollPane);
+
+        // adding selected product details to panel3
+        panel3.add(selectedProductDetails);
 
         // adding the panel1, panel2 & panel3 to the frame
         this.add(panel1);
@@ -123,4 +135,34 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener 
         new WestminsterShoppingCenter();
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==table){
+            int selectedRow = table.getSelectedRow();
+            selectedID = (String)table.getValueAt(selectedRow, 0);
+            selectedProductDetails.setSelectedID(selectedID);
+            selectedProductDetails.updateUI();
+            System.out.println(selectedID + " shopping Center 01");
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

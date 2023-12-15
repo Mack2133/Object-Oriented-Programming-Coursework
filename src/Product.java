@@ -5,6 +5,7 @@ public abstract class Product implements Serializable {
     private String productName;
     private static int numberOfAvailableItems;
     private double productPrice;
+    private int itemQuantity;
 
     public Product(String productID, String productName, double productPrice){
         this.productID = productID;
@@ -27,6 +28,14 @@ public abstract class Product implements Serializable {
 
     public double getProductPrice() {
         return productPrice;
+    }
+
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity() {
+        itemQuantity++;
     }
 
     public void setProductID(String productID) {

@@ -97,10 +97,9 @@ public class User implements Serializable {
             HashMap<String,String> readFile = (HashMap<String,String>)objectInputStream.readObject();
             loginInfo.clear();
             loginInfo.putAll(readFile);
-        } catch (IOException | ClassNotFoundException e) {
-            if (!(e instanceof FileNotFoundException)) {
-                throw new RuntimeException(e);
-            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException ignored) {
         }
     }
 
