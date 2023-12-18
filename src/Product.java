@@ -34,8 +34,12 @@ public abstract class Product implements Serializable {
         return itemQuantity;
     }
 
-    public void setItemQuantity() {
+    public void increaseItemQuantity() {
         itemQuantity++;
+    }
+
+    public void decreaseItemQuantity() {
+        itemQuantity--;
     }
 
     public void setProductID(String productID) {

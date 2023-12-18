@@ -32,6 +32,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         String warranty;
         String size;
         String color;
+        boolean isNameFound;
 
         do {
             System.out.println(
@@ -100,7 +101,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         if (brand.equalsIgnoreCase(item.getBrand())){
                             productExists = true;
                         }
-                        product.setItemQuantity();
+                        product.increaseItemQuantity();
                         break;
                     }
                 }
@@ -142,8 +143,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
         for (Product product : productsList) {
             if (product.getProductID().equalsIgnoreCase(productID)) {
-                productDelete = product;
-                productFound = true;
+                if (product.getItemQuantity()>0){
+                    product.decreaseItemQuantity();
+                } else {
+                    productDelete = product;
+                    productFound = true;
+                }
             }
         }
         if (!productFound) System.out.println("The productID you have entered is not found");

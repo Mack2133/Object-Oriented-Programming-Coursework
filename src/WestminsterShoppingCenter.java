@@ -6,19 +6,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class WestminsterShoppingCenter extends JFrame implements ActionListener, MouseListener {
+    private static final ArrayList<Product> selectedItems = new ArrayList<>();
     JComboBox<String> comboBox;
     JButton shoppingCartBtn;
     ProductTableModel tableModel;
     String selectedID;
     JTable table;
+    JLabel productID;
+    JLabel category2;
+    JLabel name;
+    JLabel size;
+    JLabel color;
+    JPanel panel4;
+    JButton addProductBtn;
+
     WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
-    SelectedProductDetails selectedProductDetails;
 
     public WestminsterShoppingCenter(){
-
-        selectedProductDetails = new SelectedProductDetails();
 
         JPanel panel1 = new JPanel();
         panel1.setBounds(0,0,1200,100); // first partition
@@ -91,8 +98,46 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         // adding the table to panel2
         panel2.add(scrollPane);
 
-        // adding selected product details to panel3
-        panel3.add(selectedProductDetails);
+        selectedID = "";
+
+        panel4 = new JPanel();
+        JPanel panel5 = new JPanel();
+
+        JLabel title = new JLabel("Selected Product - Details");
+        title.setFont(new Font("Product Sans",Font.BOLD,15));
+
+        panel4.add(title);
+        panel4.setLayout(new GridLayout(9,1,1,15));
+
+        productID = new JLabel("Product ID: " );
+        category2 = new JLabel("Category: ");
+        name = new JLabel("Name: " );
+        JLabel brand = new JLabel("Brand: " );
+        JLabel warranty = new JLabel("Warranty: " );
+        panel4.add(productID);
+        panel4.add(category2);
+        panel4.add(name);
+        panel4.add(brand);
+        panel4.add(warranty);
+        JLabel itemsAvailable = new JLabel("Items Available: " );
+        panel4.add(itemsAvailable);
+
+        addProductBtn = new JButton("Add to Shopping Cart");
+        addProductBtn.setPreferredSize(new Dimension(250,40));
+        addProductBtn.setFont(new Font("Product Sans",Font.PLAIN,15));
+        addProductBtn.setFocusable(false);
+        addProductBtn.addActionListener(this);
+
+        panel5.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        panel5.add(addProductBtn);
+
+        JPanel panel6 = new JPanel();
+        panel6.setLayout(new BorderLayout());
+        panel6.add(panel4,BorderLayout.WEST);
+        panel6.add(panel5,BorderLayout.SOUTH);
+        panel6.setPreferredSize(new Dimension(1050,280));
+
+        panel3.add(panel6);
 
         // adding the panel1, panel2 & panel3 to the frame
         this.add(panel1);
@@ -101,17 +146,74 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
 
         this.setTitle("Westminster Shopping Center");
         this.setSize(1200,1000);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(null);
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
 
+    public void updateUI() {
+        panel4.removeAll();
+
+        WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
+        ArrayList<Product> productsList = westminsterShoppingManager.getProductsList();
+
+        for (Product product: productsList) {
+            if (selectedID.equalsIgnoreCase(product.getProductID())){
+                if (product instanceof Clothing) {
+                    JLabel title = new JLabel("Selected Product - Details");
+                    title.setFont(new Font("Product Sans",Font.BOLD,15));
+                    panel4.add(title);
+                    productID = new JLabel("Product ID: " + product.getProductID());
+                    category2 = new JLabel("Category: Clothing");
+                    name = new JLabel("Name: " + product.getProductName() );
+                    size = new JLabel("Size: " + ((Clothing) product).getSize());
+                    color = new JLabel("Color: " + ((Clothing) product).getColor());
+                    panel4.add(productID);
+                    panel4.add(category2);
+                    panel4.add(name);
+                    panel4.add(size);
+                    panel4.add(color);
+                    JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
+                    panel4.add(itemsAvailable);
+                    break;
+                }
+
+                if (product instanceof Electronics) {
+                    JLabel title = new JLabel("Selected Product - Details");
+                    title.setFont(new Font("Product Sans",Font.BOLD,15));
+                    panel4.add(title);
+                    productID = new JLabel("Product ID: " + product.getProductID());
+                    category2 = new JLabel("Category: Electronics");
+                    name = new JLabel("Name: " + product.getProductName());
+                    JLabel brand = new JLabel("Brand: " + ((Electronics) product).getBrand());
+                    JLabel warranty = new JLabel("Warranty: " + ((Electronics) product).getWarranty());
+                    panel4.add(productID);
+                    panel4.add(category2);
+                    panel4.add(name);
+                    panel4.add(brand);
+                    panel4.add(warranty);
+                    JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
+                    panel4.add(itemsAvailable);
+                    break;
+                }
+            }
+        }
+        panel4.revalidate();
+        panel4.repaint();
+    }
+
+    public static ArrayList<Product> getSelectedItems() {
+        return selectedItems;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==shoppingCartBtn){
-            new ShoppingCart();
+            ShoppingCartTableModel shoppingCart = new ShoppingCartTableModel(selectedItems);
+            shoppingCart.updateData(getSelectedItems());
+            new ShoppingCart(selectedItems);
         }
 
         if (e.getSource()==comboBox){
@@ -129,10 +231,10 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
                 tableModel.updateData(westminsterShoppingManager.getProductsList());
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new WestminsterShoppingCenter();
+        if (e.getSource()==addProductBtn){
+            ShoppingCartTableModel shoppingCart = new ShoppingCartTableModel(selectedItems);
+            shoppingCart.updateData(getSelectedItems());
+        }
     }
 
     @Override
@@ -140,9 +242,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         if(e.getSource()==table){
             int selectedRow = table.getSelectedRow();
             selectedID = (String)table.getValueAt(selectedRow, 0);
-            selectedProductDetails.setSelectedID(selectedID);
-            selectedProductDetails.updateUI();
-            System.out.println(selectedID + " shopping Center 01");
+            updateUI();
         }
     }
 
@@ -165,4 +265,9 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     public void mouseExited(MouseEvent e) {
 
     }
+
+    public static void main(String[] args) {
+        new WestminsterShoppingCenter();
+    }
+
 }
