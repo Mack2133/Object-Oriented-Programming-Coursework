@@ -102,5 +102,4 @@ public class User implements Serializable {
         } catch (IOException | ClassNotFoundException ignored) {
         }
     }
-
 }

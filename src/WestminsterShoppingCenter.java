@@ -13,6 +13,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     JComboBox<String> comboBox;
     JButton shoppingCartBtn;
     ProductTableModel tableModel;
+    ShoppingCartTableModel shoppingCartTableModel;
     String selectedID;
     JTable table;
     JLabel productID;
@@ -22,7 +23,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     JLabel color;
     JPanel panel4;
     JButton addProductBtn;
-
+    ShoppingCart shoppingCart;
     WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
 
     public WestminsterShoppingCenter(){
@@ -73,6 +74,8 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         tableModel = new ProductTableModel(westminsterShoppingManager.getProductsList()); // custom table model
         // and passing the array
 
+        shoppingCartTableModel = new ShoppingCartTableModel(selectedItems);
+
         // creating a table and passing the custom table model to it.
         table = new JTable(tableModel);
         table.addMouseListener(this);
@@ -80,10 +83,11 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         table.setAutoCreateRowSorter(true); // sort the table by clicking the column name
         table.setRowHeight(40);
         table.getTableHeader().setFont(new Font("Product Sans",Font.BOLD,18));
+        table.setFocusable(false);
 
         // adding table scrollPane
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1100,400));
+        scrollPane.setPreferredSize(new Dimension(1100,350));
 
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setPreferredSize(new Dimension(0,40));
@@ -107,7 +111,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         title.setFont(new Font("Product Sans",Font.BOLD,15));
 
         panel4.add(title);
-        panel4.setLayout(new GridLayout(9,1,1,15));
+        panel4.setLayout(new GridLayout(7,1,0,20));
 
         productID = new JLabel("Product ID: " );
         category2 = new JLabel("Category: ");
@@ -128,7 +132,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         addProductBtn.setFocusable(false);
         addProductBtn.addActionListener(this);
 
-        panel5.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        panel5.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel5.add(addProductBtn);
 
         JPanel panel6 = new JPanel();
@@ -211,9 +215,11 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==shoppingCartBtn){
-            ShoppingCartTableModel shoppingCart = new ShoppingCartTableModel(selectedItems);
-            shoppingCart.updateData(getSelectedItems());
-            new ShoppingCart(selectedItems);
+            if (ShoppingCart.shoppingCartFrame != null && ShoppingCart.shoppingCartFrame.getContentPane().isVisible()){
+                ShoppingCart.shoppingCartFrame.setVisible(true);
+            } else {
+                shoppingCart = new ShoppingCart();
+            }
         }
 
         if (e.getSource()==comboBox){
@@ -231,9 +237,16 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
                 tableModel.updateData(westminsterShoppingManager.getProductsList());
             }
         }
+
         if (e.getSource()==addProductBtn){
-            ShoppingCartTableModel shoppingCart = new ShoppingCartTableModel(selectedItems);
-            shoppingCart.updateData(getSelectedItems());
+            for (Product product: westminsterShoppingManager.getProductsList()) {
+                if (product.getProductID().equalsIgnoreCase(selectedID)){
+                    selectedItems.add(product);
+                    break;
+                }
+            }
+            shoppingCart.calculateTotal();
+            shoppingCart.addProduct();
         }
     }
 
@@ -269,5 +282,4 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     public static void main(String[] args) {
         new WestminsterShoppingCenter();
     }
-
 }

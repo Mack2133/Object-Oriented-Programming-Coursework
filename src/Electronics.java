@@ -4,8 +4,8 @@ public class Electronics extends Product implements Serializable {
     private String brand;
     private String warranty;
 
-    public Electronics(String productID, String productName, double productPrice, String brand, String warranty) {
-        super(productID, productName, productPrice);
+    public Electronics(String productID, String productName, double productPrice, int itemQuantity, String brand, String warranty) {
+        super(productID, productName, productPrice,itemQuantity);
         this.brand = brand;
         this.warranty = warranty;
     }

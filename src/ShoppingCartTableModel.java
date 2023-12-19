@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class ShoppingCartTableModel extends AbstractTableModel {
     private final String[] columnNames = {"Product","Quantity","Price"};
-    private ArrayList<Product> productList;
+    private final ArrayList<Product> productList;
 
     ShoppingCartTableModel (ArrayList<Product> productList){
         this.productList = productList;
@@ -67,8 +67,4 @@ public class ShoppingCartTableModel extends AbstractTableModel {
         };
     }
 
-    public void updateData(ArrayList<Product> ProductList) {
-        this.productList = ProductList;
-        fireTableDataChanged();
-    }
 }

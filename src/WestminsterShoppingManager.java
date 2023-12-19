@@ -13,9 +13,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
         if(!productsList.isEmpty()){
             for (Product product : productsList) {
                 if (product instanceof Electronics)
-                    new Electronics(product.getProductID(), product.getProductName(), product.getProductPrice(), ((Electronics) product).getBrand(), ((Electronics) product).getWarranty());
+                    new Electronics(product.getProductID(), product.getProductName(), product.getProductPrice(),product.getItemQuantity(), ((Electronics) product).getBrand(), ((Electronics) product).getWarranty());
                 if (product instanceof Clothing)
-                    new Clothing(product.getProductID(), product.getProductName(), product.getProductPrice(), ((Clothing) product).getSize(), ((Clothing) product).getColor());
+                    new Clothing(product.getProductID(), product.getProductName(), product.getProductPrice(), product.getItemQuantity(), ((Clothing) product).getSize(), ((Clothing) product).getColor());
             }
         }
     }
@@ -24,7 +24,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
     public void addProduct() {
         String choice;
         boolean isIDFound;
-        boolean productExists;
         String productID;
         String productName;
         double productPrice;
@@ -32,7 +31,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         String warranty;
         String size;
         String color;
-        boolean isNameFound;
+        int itemQty;
 
         do {
             System.out.println(
@@ -80,11 +79,23 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid value.");
-                scanner.nextLine();
+                scanner.nextLine(); // to stop infinite loop
             }
         }
 
-        if (productsList.size() < 50) {
+        while (true){
+            try {
+                System.out.print("Enter the quantity: ");
+                itemQty = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid value.");
+                scanner.nextLine(); // to stop infinite loop
+            }
+        }
+
+        if (getTotalItems() + itemQty <= 50) {
             if (choice.equalsIgnoreCase("1")) {
 
                 System.out.print("Enter the brand: ");
@@ -93,24 +104,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 System.out.print("Enter the warranty period: ");
                 warranty = scanner.nextLine();
 
-                productExists = false;
-
-                for (Product product:productsList) {
-                    if (productName.equalsIgnoreCase(product.getProductName())){
-                        Electronics item = (Electronics)product;
-                        if (brand.equalsIgnoreCase(item.getBrand())){
-                            productExists = true;
-                        }
-                        product.increaseItemQuantity();
-                        break;
-                    }
-                }
-
-                if (!productExists){
-                    Product newElectronicProduct = new Electronics(productID, productName, productPrice, brand, warranty);
-                    productsList.add(newElectronicProduct);
-                    System.out.println(newElectronicProduct + " Product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
-                }
+                Product newElectronicProduct = new Electronics(productID, productName, productPrice, itemQty, brand, warranty);
+                productsList.add(newElectronicProduct);
+                System.out.println(newElectronicProduct + " Product added successfully.\nAvailable Items: " + newElectronicProduct.getItemQuantity());
             }
             if (choice.equalsIgnoreCase("2")) {
 
@@ -120,9 +116,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 System.out.print("Enter the color: ");
                 color = scanner.nextLine();
 
-                Product newClothingProduct = new Clothing(productID, productName, productPrice, size, color);
+                Product newClothingProduct = new Clothing(productID, productName, productPrice, itemQty, size, color);
                 productsList.add(newClothingProduct);
-                System.out.println(newClothingProduct + " product added successfully.\nTotal products in the system: " + Product.getNumberOfAvailableItems());
+                System.out.println(newClothingProduct + " product added successfully.\nAvailable Items: " + newClothingProduct.getItemQuantity());
             }
         } else {
             System.out.println("Cannot add more products. Product limit reached.");
@@ -142,25 +138,27 @@ public class WestminsterShoppingManager implements ShoppingManager {
         Product productDelete = null;
 
         for (Product product : productsList) {
-            if (product.getProductID().equalsIgnoreCase(productID)) {
-                if (product.getItemQuantity()>0){
+            if (productID.equalsIgnoreCase(product.getProductID())) {
+                if (product.getItemQuantity()>1){
                     product.decreaseItemQuantity();
+                    System.out.println(product + ", is deleted successfully." + "\ntotal number of products left in the system " + getTotalItems());
                 } else {
                     productDelete = product;
-                    productFound = true;
                 }
+                productFound = true;
             }
         }
+
         if (!productFound) System.out.println("The productID you have entered is not found");
         else {
             if (productDelete instanceof Electronics) {
-                Product.setNumberOfAvailableItems(Product.getNumberOfAvailableItems() - 1);
-                System.out.println(productDelete + ", is deleted successfully." + "\ntotal number of products left in the system " + Product.getNumberOfAvailableItems());
+                productDelete.decreaseItemQuantity();
+                System.out.println(productDelete + ", is deleted successfully." + "\ntotal number of products left in the system " + getTotalItems());
                 productsList.remove(productDelete);
             }
             if (productDelete instanceof Clothing) {
-                Product.setNumberOfAvailableItems(Product.getNumberOfAvailableItems() - 1);
-                System.out.println(productDelete + ", is deleted successfully." + "\ntotal number of products left in the system " + Product.getNumberOfAvailableItems());
+                productDelete.decreaseItemQuantity();
+                System.out.println(productDelete + ", is deleted successfully." + "\ntotal number of products left in the system " + getTotalItems());
                 productsList.remove(productDelete);
             }
         }
@@ -239,6 +237,15 @@ public class WestminsterShoppingManager implements ShoppingManager {
             }
         }
     }
+
+    public int getTotalItems(){
+        int totalItems = 0;
+        for (Product product:productsList) {
+            totalItems += product.getItemQuantity();
+        }
+        return totalItems;
+    }
+
     public static void displayMenuOptions() {
 
         System.out.println("\n*************** Welcome To Westminster Shopping Manager ***************\n");
@@ -264,4 +271,5 @@ public class WestminsterShoppingManager implements ShoppingManager {
                     
                 """);
     }
+
 }

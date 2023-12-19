@@ -3,15 +3,14 @@ import java.io.Serializable;
 public abstract class Product implements Serializable {
     private String productID;
     private String productName;
-    private static int numberOfAvailableItems;
     private double productPrice;
     private int itemQuantity;
 
-    public Product(String productID, String productName, double productPrice){
+    public Product(String productID, String productName, double productPrice, int itemQuantity){
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
-        numberOfAvailableItems++;
+        this.itemQuantity = itemQuantity;
     }
 
     public String getProductID() {
@@ -20,10 +19,6 @@ public abstract class Product implements Serializable {
 
     public String getProductName() {
         return productName;
-    }
-
-    public static int getNumberOfAvailableItems() {
-        return numberOfAvailableItems;
     }
 
     public double getProductPrice() {
@@ -54,14 +49,11 @@ public abstract class Product implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public static void setNumberOfAvailableItems(int numberOfAvailableItems) {
-        Product.numberOfAvailableItems = numberOfAvailableItems;
-    }
-
     @Override
     public String toString() {
         return "ProductID: " + productID +
                 ", Product Name: " + productName +
-                ", Price: " + productPrice;
+                ", Price: " + productPrice +
+                ", Items Available: " + itemQuantity;
     }
 }

@@ -4,8 +4,8 @@ public class Clothing extends Product implements Serializable {
     private String size;
     private String color;
 
-    public Clothing(String productID, String productName, double productPrice,String size,String color){
-        super(productID, productName, productPrice);
+    public Clothing(String productID, String productName, double productPrice, int itemQuantity, String size,String color){
+        super(productID, productName, productPrice,itemQuantity);
         this.size = size;
         this.color = color;
     }
