@@ -45,7 +45,7 @@ public class ShoppingCartTableModel extends AbstractTableModel {
         }
 
         if (columnIndex == 1){
-            value = productList.get(rowIndex).getItemQuantity();
+            value = 1;
         }
 
         if (columnIndex == 2){

@@ -200,8 +200,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
-        } catch (IOException | ClassNotFoundException ignored) {
-        }
+        } catch (IOException | ClassNotFoundException ignored) {}
     }
 
     public void updateProductList(String category){

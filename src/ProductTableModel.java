@@ -1,9 +1,11 @@
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ProductTableModel extends AbstractTableModel {
     private final String[] columnNames = {"Product ID","Name","Category","Price","info"};
     private ArrayList<Product> productList;
+    private Color[] rowColors;
 
     ProductTableModel(ArrayList<Product> productList){
         this.productList = productList;

@@ -67,6 +67,7 @@ public class User implements Serializable {
                 loginInfo.put(username,password);
                 saveLoginInfo();
                 System.out.println("user " + username + " created");
+                new WestminsterShoppingCenter();
                 break;
             } else {
                 System.out.println( username + ": username already taken, try another username");
