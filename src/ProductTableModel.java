@@ -7,6 +7,8 @@ public class ProductTableModel extends AbstractTableModel {
     private ArrayList<Product> productList;
     private Color[] rowColors;
 
+    ProductTableModel(){}
+
     ProductTableModel(ArrayList<Product> productList){
         this.productList = productList;
     }
@@ -23,6 +25,11 @@ public class ProductTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+
+        if (rowIndex < 0 || rowIndex >= productList.size()) {
+            // Handle the case when the rowIndex is out of bounds
+            return null;  // or any default value/error handling mechanism
+        }
 
         Object value = null;
 

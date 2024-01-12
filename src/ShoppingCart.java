@@ -151,6 +151,4 @@ public class ShoppingCart {
 
         finalTotal_amount.setText(String.format("%.2f", totalPrice - (_10percent_discount + _20percent_discount)));
     }
-
-
 }

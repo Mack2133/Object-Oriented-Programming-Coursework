@@ -163,44 +163,46 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
         ArrayList<Product> productsList = westminsterShoppingManager.getProductsList();
 
-        for (Product product: productsList) {
-            if (selectedID.equalsIgnoreCase(product.getProductID())){
-                if (product instanceof Clothing) {
-                    JLabel title = new JLabel("Selected Product - Details");
-                    title.setFont(new Font("Product Sans",Font.BOLD,15));
-                    panel4.add(title);
-                    productID = new JLabel("Product ID: " + product.getProductID());
-                    category2 = new JLabel("Category: Clothing");
-                    name = new JLabel("Name: " + product.getProductName() );
-                    size = new JLabel("Size: " + ((Clothing) product).getSize());
-                    color = new JLabel("Color: " + ((Clothing) product).getColor());
-                    panel4.add(productID);
-                    panel4.add(category2);
-                    panel4.add(name);
-                    panel4.add(size);
-                    panel4.add(color);
-                    JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
-                    panel4.add(itemsAvailable);
-                    break;
-                }
+        if(selectedID!=null){
+            for (Product product: productsList) {
+                if (selectedID.equalsIgnoreCase(product.getProductID())){
+                    if (product instanceof Clothing) {
+                        JLabel title = new JLabel("Selected Product - Details");
+                        title.setFont(new Font("Product Sans",Font.BOLD,15));
+                        panel4.add(title);
+                        productID = new JLabel("Product ID: " + product.getProductID());
+                        category2 = new JLabel("Category: Clothing");
+                        name = new JLabel("Name: " + product.getProductName() );
+                        size = new JLabel("Size: " + ((Clothing) product).getSize());
+                        color = new JLabel("Color: " + ((Clothing) product).getColor());
+                        panel4.add(productID);
+                        panel4.add(category2);
+                        panel4.add(name);
+                        panel4.add(size);
+                        panel4.add(color);
+                        JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
+                        panel4.add(itemsAvailable);
+                        break;
+                    }
 
-                if (product instanceof Electronics) {
-                    JLabel title = new JLabel("Selected Product - Details");
-                    title.setFont(new Font("Product Sans",Font.BOLD,15));
-                    panel4.add(title);
-                    productID = new JLabel("Product ID: " + product.getProductID());
-                    category2 = new JLabel("Category: Electronics");
-                    name = new JLabel("Name: " + product.getProductName());
-                    JLabel brand = new JLabel("Brand: " + ((Electronics) product).getBrand());
-                    JLabel warranty = new JLabel("Warranty: " + ((Electronics) product).getWarranty());
-                    panel4.add(productID);
-                    panel4.add(category2);
-                    panel4.add(name);
-                    panel4.add(brand);
-                    panel4.add(warranty);
-                    JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
-                    panel4.add(itemsAvailable);
-                    break;
+                    if (product instanceof Electronics) {
+                        JLabel title = new JLabel("Selected Product - Details");
+                        title.setFont(new Font("Product Sans",Font.BOLD,15));
+                        panel4.add(title);
+                        productID = new JLabel("Product ID: " + product.getProductID());
+                        category2 = new JLabel("Category: Electronics");
+                        name = new JLabel("Name: " + product.getProductName());
+                        JLabel brand = new JLabel("Brand: " + ((Electronics) product).getBrand());
+                        JLabel warranty = new JLabel("Warranty: " + ((Electronics) product).getWarranty());
+                        panel4.add(productID);
+                        panel4.add(category2);
+                        panel4.add(name);
+                        panel4.add(brand);
+                        panel4.add(warranty);
+                        JLabel itemsAvailable = new JLabel("Items Available: " + product.getItemQuantity());
+                        panel4.add(itemsAvailable);
+                        break;
+                    }
                 }
             }
         }
@@ -214,6 +216,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Product productToRemove = null;
         if(e.getSource()==shoppingCartBtn){
             if (ShoppingCart.shoppingCartFrame != null && ShoppingCart.shoppingCartFrame.getContentPane().isVisible()){
                 ShoppingCart.shoppingCartFrame.setVisible(true);
@@ -242,11 +245,23 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
             for (Product product: westminsterShoppingManager.getProductsList()) {
                 if (product.getProductID().equalsIgnoreCase(selectedID)){
                     selectedItems.add(product);
+
+                    product.decreaseItemQuantity();
+                    if(product.getItemQuantity()==0){
+                        productToRemove = product;
+                    }
+
+                    if (shoppingCart != null) {
+                        shoppingCart.calculateTotal();
+                        shoppingCart.addProduct();
+                    }
                     break;
                 }
             }
-            shoppingCart.calculateTotal();
-            shoppingCart.addProduct();
+
+            if (productToRemove != null) {
+                westminsterShoppingManager.getProductsList().remove(productToRemove);
+            }
         }
     }
 
