@@ -99,6 +99,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
         table.setDefaultRenderer(String.class, tableCell);
         table.setDefaultRenderer(Double.class, tableCell);
 
+
         // adding the table to panel2
         panel2.add(scrollPane);
 
@@ -160,7 +161,6 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     public void updateUI() {
         panel4.removeAll();
 
-        WestminsterShoppingManager westminsterShoppingManager = new WestminsterShoppingManager();
         ArrayList<Product> productsList = westminsterShoppingManager.getProductsList();
 
         if(selectedID!=null){
@@ -261,6 +261,7 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
 
             if (productToRemove != null) {
                 westminsterShoppingManager.getProductsList().remove(productToRemove);
+                updateUI();
             }
         }
     }
@@ -292,9 +293,5 @@ public class WestminsterShoppingCenter extends JFrame implements ActionListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        new WestminsterShoppingCenter();
     }
 }

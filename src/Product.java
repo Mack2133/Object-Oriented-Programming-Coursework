@@ -1,9 +1,9 @@
 import java.io.Serializable;
 
 public abstract class Product implements Serializable {
-    private String productID;
-    private String productName;
-    private double productPrice;
+    private final String productID;
+    private final String productName;
+    private final double productPrice;
     private int itemQuantity;
 
     public Product(String productID, String productName, double productPrice, int itemQuantity){
@@ -29,24 +29,8 @@ public abstract class Product implements Serializable {
         return itemQuantity;
     }
 
-    public void increaseItemQuantity() {
-        itemQuantity++;
-    }
-
     public void decreaseItemQuantity() {
         itemQuantity--;
-    }
-
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
     }
 
     @Override

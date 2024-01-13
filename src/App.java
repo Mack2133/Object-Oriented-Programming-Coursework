@@ -7,7 +7,7 @@ public class App {
 
         while(true){
             WestminsterShoppingManager.displayUserType();
-            System.out.print("Enter a option: ");
+            System.out.print("Enter an option: ");
             String userType = scanner1.nextLine();
 
             if(userType.equalsIgnoreCase("1")){
@@ -18,7 +18,7 @@ public class App {
                 do {
                     WestminsterShoppingManager.displayMenuOptions(); // printing the options
 
-                    System.out.print("Enter a option: ");
+                    System.out.print("Enter an option: ");
                     Scanner scanner = new Scanner(System.in);
                     String choice = scanner.nextLine();
 

@@ -7,8 +7,6 @@ public class ProductTableModel extends AbstractTableModel {
     private ArrayList<Product> productList;
     private Color[] rowColors;
 
-    ProductTableModel(){}
-
     ProductTableModel(ArrayList<Product> productList){
         this.productList = productList;
     }
